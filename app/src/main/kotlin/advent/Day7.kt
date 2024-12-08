@@ -14,7 +14,7 @@ fun main() {
         val values = line.drop(1)
         if (calculate(1, values, target, Operator.MULTIPLY)) target else 0
     }.let {
-        //Day 7 - Part 1 result
+        //Day 7 - Part 1 & 2 result
         println(it)
     }
 }
