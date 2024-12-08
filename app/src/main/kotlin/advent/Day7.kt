@@ -12,7 +12,7 @@ fun main() {
     input.sumOf { line ->
         val target = line.first().dropLast(1).toLong()
         val values = line.drop(1).map { it.toLong() }
-        if (calculate(0, values, target, Operator.NONE)) target else 0
+        if (calculate(1, values, target, Operator.MULTIPLY)) target else 0
     }.let {
         //Day 7 - Part 1 result
         println(it)
@@ -36,10 +36,7 @@ private fun calculate(value: Long, values: List<Long>, target: Long, operator: O
     val nextValues = if (operator == Operator.NONE) values else values.drop(1)
     if (nextValues.isEmpty())
         return total == target
-    return when {
-        calculate(total, nextValues, target, Operator.SUM) -> true
-        calculate(total, nextValues, target, Operator.MULTIPLY) -> true
-        calculate(total, nextValues, target, Operator.CONCAT) -> true
-        else -> false
-    }
+    return calculate(total, nextValues, target, Operator.SUM) ||
+        calculate(total, nextValues, target, Operator.MULTIPLY) ||
+        calculate(total, nextValues, target, Operator.CONCAT)
 }
