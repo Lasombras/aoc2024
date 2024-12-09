@@ -22,6 +22,7 @@ fun main() {
         if(antennas.size > 1) {
             antennas.forEachIndexed { index, antenna ->
                 nodes.add(antenna.copy(frequence = '#'))
+                //Start for the current antenna to the next antenanna
                 antennas.drop(index + 1).forEach { nextAntenna ->
                     nodes.addAll(antenna.createNodes(nextAntenna, lineRange, columnRange, 1))
                     nodes.addAll(antenna.createNodes(nextAntenna, lineRange, columnRange, -1))
