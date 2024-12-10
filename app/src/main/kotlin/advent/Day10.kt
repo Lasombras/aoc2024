@@ -8,46 +8,29 @@ fun main() {
     }.orEmpty()
 
 
-    inputMap.foldIndexed(0) { y, total, line ->
-        total + line.foldIndexed(0) { x, columnTotal, item ->
-            columnTotal + if(item == 0) { inputMap.moveDistinct(x, y, -1).size } else { 0 }
+    inputMap.flatMapIndexed { y, line ->
+         line.mapIndexed { x, item ->
+             if(item == 0) inputMap.climb(x, y, -1) else emptyList()
         }
-    }.let {
+    }.let { trailheads ->
         //Day 10 - Part 1 result
-        println(it)
+        println(trailheads.sumOf { it.distinct().size })
+        //Day 10 - Part 2 result
+        println(trailheads.sumOf { it.size })
     }
-
-    inputMap.foldIndexed(0) { y, total, line ->
-        total + line.foldIndexed(0) { x, columnTotal, item ->
-            columnTotal + if(item == 0) { inputMap.move(x, y, -1) } else { 0 }
-        }
-    }.let {
-        //Day 10 - Part 1 result
-        println(it)
-    }
-
 }
 
-private fun Array<out IntArray>.moveDistinct(x: Int, y: Int, previous: Int): Set<Pair<Int, Int>> {
+private fun Array<out IntArray>.climb(x: Int, y: Int, previous: Int): List<Pair<Int, Int>> {
     if(x < 0 || x >= first().size || y < 0 || y >= size)
-        return emptySet()
+        return emptyList()
     val value = this[y][x]
     if(value - previous != 1)
-        return emptySet()
+        return emptyList()
     if(value == 9)
-        return setOf(x to y)
-    return moveDistinct(x + 1, y, value) + moveDistinct(x - 1, y, value) + moveDistinct(x , y + 1, value) + moveDistinct(x, y - 1, value)
-
-}
-
-private fun Array<out IntArray>.move(x: Int, y: Int, previous: Int): Int{
-    if(x < 0 || x >= first().size || y < 0 || y >= size)
-        return 0
-    val value = this[y][x]
-    if(value - previous != 1)
-        return 0
-    if(value == 9)
-        return 1
-    return move(x + 1, y, value) + move(x - 1, y, value) + move(x , y + 1, value) + move(x, y - 1, value)
+        return listOf(x to y)
+    return climb(x + 1, y, value) +
+           climb(x - 1, y, value) +
+           climb(x , y + 1, value) +
+           climb(x, y - 1, value)
 
 }
