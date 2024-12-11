@@ -20,6 +20,7 @@ fun main() {
     }
 }
 
+//retrieve a list of valid terminal point (9)
 private fun Array<out IntArray>.climb(x: Int, y: Int, previous: Int): List<Pair<Int, Int>> {
     if(x < 0 || x >= first().size || y < 0 || y >= size)
         return emptyList()
@@ -32,5 +33,4 @@ private fun Array<out IntArray>.climb(x: Int, y: Int, previous: Int): List<Pair<
            climb(x - 1, y, value) +
            climb(x , y + 1, value) +
            climb(x, y - 1, value)
-
 }
