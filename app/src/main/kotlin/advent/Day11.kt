@@ -1,18 +1,21 @@
 package advent
 
 import tools.ResourceReader
+import kotlin.system.measureTimeMillis
 
 fun main() {
     val inputMap = ResourceReader("day11.txt").useLines { seq ->
         seq.map { it }.first().split(" ").map { it to 1L }
     }.orEmpty()
 
-    (1..75) .fold(inputMap) { stones, _ ->
-        stones.blinkAll()
-    }.let { result ->
-        //Day 11 - Result 1
-        println(result.sumOf { it.second })
-    }
+    measureTimeMillis {
+        (1..75) .fold(inputMap) { stones, _ ->
+            stones.blinkAll()
+        }.let { result ->
+            //Day 11 - Result 1
+            println(result.sumOf { it.second })
+        }
+    }.let { println("Execution time : $it ms") }
 
 }
 
